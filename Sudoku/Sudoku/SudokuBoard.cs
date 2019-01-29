@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.IO;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace Sudoku
 {
@@ -22,10 +24,32 @@ namespace Sudoku
         /// Overloaded constructor for a sudokuboard that reads in a file and generates
         /// the board based on that files information
         /// </summary>
-        /// <param name="fileName">Name of the file you want to load</param>
-        public SudokuBoard(string fileName)
+        /// <param name="fileName">Name of the file you want to load, relative to the binary. \Sudoku\bin\Debug\Sudoku.exe</param>
+        /// <param name="lineNum">The line num of the file you want to load (counted as a programmer, first line = 0)</param>
+        public SudokuBoard(string fileName, int lineNum)
         {
-            throw new NotImplementedException();
+            string line = "";
+
+            using (StreamReader sr = new StreamReader(Application.StartupPath + "\\" + fileName))
+            {
+                for (int i = 0; i < lineNum; i++) sr.ReadLine();
+                line = sr.ReadLine();
+            }
+
+            for (int i = 0; i < 9; i++)
+            {
+                for (int j = i * 9; j < i * 9 + 9; j++)
+                {
+                    if (line[j] == '.')
+                    {
+                        board[i, j % 9] = 0;
+                    }
+                    else
+                    {
+                        board[i, j % 9] = int.Parse(line[j].ToString());
+                    }
+                }
+            }
         }
 
         /// <summary>

@@ -10,7 +10,8 @@ namespace Sudoku
     {
         static void Main(string[] args)
         {
-
+            SudokuBoard board = new SudokuBoard("examples.txt", 0);
+            board.Print();
         }
     }
 }
